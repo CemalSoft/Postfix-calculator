@@ -7,71 +7,71 @@ using System.Threading.Tasks;
 
 class PostfixHesaplayici
 {
-    static void PostfixHesapla(string postfixIfade)
+    static void postfixCalculate(string postfixIfade)
     {
-        Stack<int> yigin = new Stack<int>();
+        Stack<int> stack = new Stack<int>();
 
-        string[] elemanlar = postfixIfade.Split(' ');
+        string[] elements = postfixIfade.Split(' ');
 
-        foreach (string eleman in elemanlar)
+        foreach (string element in elements)
         {
-            if (int.TryParse(eleman, out int operand))
+            if (int.TryParse(element, out int operand))
             {
-                yigin.Push(operand);
+                stack.Push(operand);
             }
             else
             {
-                if (yigin.Count < 2)
+                if (stack.Count < 2)
                 {
-                    Console.WriteLine("Yetersiz operand sayisi");
+                    Console.WriteLine("Insufficient number of operands");
                     return;
                 }
 
-                int operand2 = yigin.Pop();
-                int operand1 = yigin.Pop();
+                int operand2 = stack.Pop();
+                int operand1 = stack.Pop();
 
-                switch (eleman)
+                switch (element)
                 {
                     case "+":
-                        yigin.Push(operand1 + operand2);
+                        stack.Push(operand1 + operand2);
                         break;
                     case "-":
-                        yigin.Push(operand1 - operand2);
+                        stack.Push(operand1 - operand2);
                         break;
                     case "*":
-                        yigin.Push(operand1 * operand2);
+                        stack.Push(operand1 * operand2);
                         break;
                     case "/":
                         if (operand2 == 0)
                         {
-                            Console.WriteLine("Sıfıra bölünmez");
+                            Console.WriteLine("Not divisible by zero");
                             return;
                         }
-                        yigin.Push(operand1 / operand2);
+                        stack.Push(operand1 / operand2);
                         break;
                     default:
-                        Console.WriteLine("Geçersiz operatör kullanimi");
+                        Console.WriteLine("Invalid operator usage");
                         return;
                 }
             }
         }
 
-        if (yigin.Count != 1)
+        if (stack.Count != 1)
         {
-            Console.WriteLine("Eksik operatör sayısı");
+            Console.WriteLine("Number of missing operators");
             return;
         }
 
-        Console.WriteLine("Sonuç: " + yigin.Pop());
+        Console.WriteLine("Result: " + stack.Pop());
 
     }
 
     static void Main()
     {
-        Console.Write("Postfix ifadesi giriniz: ");
-        string postfixIfade = Console.ReadLine();
+        Console.Write("Enter the Postfix expression: ");
+        string postfixExpression = Console.ReadLine();
 
-        PostfixHesapla(postfixIfade);
+        postfixCalculate(postfixExpression);
 
         Console.ReadLine();
     }
